@@ -28,7 +28,6 @@ export const setEventListeners = (formElement, settings) => {
     const inputList = Array.from(formElement.querySelectorAll(settings.inputSelector));
     const buttonElement = formElement.querySelector(settings.submitButtonSelector);
 
-    // Добавлено: Изначальное состояние кнопки
     toggleButtonState(inputList, buttonElement, settings);
 
     inputList.forEach((inputElement) => {
@@ -75,6 +74,5 @@ export const resetValidation = (formElement, settings) => {
         hideInputError(formElement, inputElement, settings);
     });
 
-    // Переключаем состояние кнопки при сбросе валидации, чтобы кнопка была disabled, если есть ошибки
     toggleButtonState(inputList, buttonElement, settings);
 };

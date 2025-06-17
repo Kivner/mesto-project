@@ -2,8 +2,18 @@ import {enableValidation, resetValidation} from '../components/validate.js';
 import {createCard, addCardToPage} from '../components/card.js';
 import {openPopup, closePopup} from '../components/modal.js';
 import './../pages/index.css'
+import {
+    getInitialCards,
+    getUserInfo,
+    updateUserInfo,
+    addCard,
+    deleteCard,
+    addLike,
+    removeLike,
+    updateAvatar
+} from './api.js';
 
-import logo from '../images/logo.svg'; // Webpack сгенерирует URL для изображения
+import logo from '../images/logo.svg'; // URL для лого сайта
 const logoImage = document.querySelector('.header__logo');
 logoImage.src = logo;
 
@@ -11,6 +21,7 @@ logoImage.src = logo;
 const profileEditButton = document.querySelector('.profile__edit-button');
 const profileAddButton = document.querySelector('.profile__add-button');
 const profileTitle = document.querySelector('.profile__title');
+const profileImage = document.querySelector('.profile__image');
 const profileDescription = document.querySelector('.profile__description');
 
 const popupEdit = document.querySelector('.popup_type_edit');
@@ -71,7 +82,7 @@ function handleAddFormSubmit(evt) {
     submitButton.disabled = true;
 }
 
-//Функция-обработчик для открытия попапа с картинкой
+//Функция-обработчик для открытия модального окна с картинкой
 function handleCardClick(name, link) {
     popupImageElement.src = link;
     popupImageElement.alt = name;
@@ -79,7 +90,7 @@ function handleCardClick(name, link) {
     openPopup(popupImage);
 }
 
-// Event Listeners (Обработчики событий)
+// Обработчики событий для изменения профиля и добавления карточек
 profileEditButton.addEventListener('click', () => {
     fillEditForm();
     resetValidation(editForm, validationSettings);
@@ -99,7 +110,7 @@ popupImageCloseButton.addEventListener('click', () => closePopup(popupImage));
 editForm.addEventListener('submit', handleEditFormSubmit);
 addForm.addEventListener('submit', handleAddFormSubmit);
 
-// Добавление карточки по Enter
+// Добавление карточки по нажатию кнопки Enter
 addForm.addEventListener('keydown', (evt) => {
     if (evt.key === 'Enter' && document.activeElement === placeNameInput) {
         evt.preventDefault();
@@ -109,7 +120,7 @@ addForm.addEventListener('keydown', (evt) => {
     }
 });
 
-// Закрытие попапов кликом на оверлей
+// Закрытие модального окна кликом на чёрный фон
 const popups = document.querySelectorAll('.popup');
 
 popups.forEach((popup) => {
@@ -123,9 +134,27 @@ popups.forEach((popup) => {
 // Инициализация карточек
 import {initialCards} from './initial-cards.js';
 
-initialCards.forEach(item => {
-    const card = createCard(item.name, item.link, handleCardClick);
-    addCardToPage(card, placesList);
+let curUserId;
+
+// Получение информации о пользователе и начальных карточек с сервера
+document.addEventListener('DOMContentLoaded', function () {
+
+    Promise.all([getUserInfo(), getInitialCards()])
+        .then(([user,cards]) => {
+            profileTitle.textContent = user.name;
+            profileDescription.textContent = user.about;
+            profileImage.style.backgroundImage = `url(${user.avatar})`;
+
+            curUserId = user._id;
+
+            // Отрисовываем начальные карточки
+            cards.forEach(cardData => {
+                placesList.append(createCard(cardData, curUserId, handleCardClick));
+            });
+        })
+        .catch(err => {
+            console.error('Ошибка при загрузке данных:', err);
+        });
 });
 
 // Включение валидации для форм
