@@ -1,6 +1,6 @@
 import {enableValidation, resetValidation} from '../components/validate.js';
 import {createCard, addCardToPage} from '../components/card.js';
-import {openPopup, closePopup} from '../components/modal.js';
+import {openPopup, closePopup, closeByOverlay} from '../components/modal.js';
 import './../pages/index.css'
 import {
     getInitialCards,
@@ -64,6 +64,19 @@ function fillEditForm() {
     nameInput.value = profileTitle.textContent;
     descriptionInput.value = profileDescription.textContent;
 }
+
+document.addEventListener('DOMContentLoaded', function() {
+    const popups = document.querySelectorAll('.popup');
+    popups.forEach(popup => {
+
+        // Добавление анимации попапа
+        popup.classList.add('popup_is-animated');
+        popup.addEventListener('mousedown', closeByOverlay);
+
+    });
+
+    enableValidation(validationSettings);
+});
 
 let isEditSubmitting = false; // Флаг для формы редактирования
 let isAddSubmitting = false; // Флаг для формы добавления
