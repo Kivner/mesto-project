@@ -1,7 +1,7 @@
 import {enableValidation, resetValidation} from '../components/validate.js';
 import {createCard, addCardToPage} from '../components/card.js';
 import {openPopup, closePopup, closeByOverlay} from '../components/modal.js';
-import '../pages/index.css'
+import '../pages/index.css';
 import {
     getInitialCards,
     getUserInfo,
