@@ -1,4 +1,3 @@
-// webpack.config.js
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
@@ -9,11 +8,11 @@ module.exports = {
     output: {
         path: path.resolve(__dirname, 'dist'),
         filename: 'main.js',
-        publicPath: '/'
+        publicPath: ''
     },
     mode: 'development',
     devServer: {
-        static: path.resolve(__dirname, 'dist'),
+        static: path.resolve(__dirname, './dist'),
         compress: true,
         port: 8084,
         open: true
@@ -45,7 +44,7 @@ module.exports = {
     },
     plugins: [
         new HtmlWebpackPlugin({
-            template: './index.html' // Укажите путь к вашему index.html файлу
+            template: './src/index.html'
         }),
         new MiniCssExtractPlugin(),
         new CleanWebpackPlugin(),

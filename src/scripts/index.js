@@ -1,7 +1,10 @@
+// Импорт стилей
+import '../pages/index.css';
+// Импорты компонентов
 import {enableValidation, resetValidation} from '../components/validate.js';
 import {createCard, addCardToPage} from '../components/card.js';
 import {openPopup, closePopup, closeByOverlay} from '../components/modal.js';
-import '../pages/index.css';
+// Импорт API
 import {
     getInitialCards,
     getUserInfo,
@@ -13,11 +16,13 @@ import {
     updateAvatar
 } from './api.js';
 
+// Импорт лого сайта
 import logo from '../images/logo.svg'; // URL для лого сайта
 const logoImage = document.querySelector('.header__logo');
 logoImage.src = logo;
 
 // DOM элементы
+// Профиль
 const profileEditButton = document.querySelector('.profile__edit-button');
 const profileAddButton = document.querySelector('.profile__add-button');
 const profileTitle = document.querySelector('.profile__title');
@@ -25,31 +30,36 @@ const profileImage = document.querySelector('.profile__image');
 const profileDescription = document.querySelector('.profile__description');
 const profileAvatarOverlay = document.querySelector('.profile__avatar-overlay');
 
+// Тип попапа
 const popupEdit = document.querySelector('.popup_type_edit');
 const popupAdd = document.querySelector('.popup_type_new-card');
 const popupImage = document.querySelector('.popup_type_image');
 const popupAvatar = document.querySelector('.popup_type_avatar');
 
+// Закрытие попапа
 const popupEditCloseButton = popupEdit.querySelector('.popup__close');
 const popupAddCloseButton = popupAdd.querySelector('.popup__close');
 const popupImageCloseButton = popupImage.querySelector('.popup__close');
 const popupAvatarCloseButton = popupAvatar.querySelector('.popup__close');
 
+// Действия с попапом
 const editForm = popupEdit.querySelector('.popup__form[name="edit-profile"]');
 const addForm = popupAdd.querySelector('.popup__form[name="new-place"]');
 const avatarForm = popupAvatar.querySelector('.popup__form[name="edit-avatar"]');
 
+// Поля ввода
 const nameInput = editForm.querySelector('.popup__input_type_name');
 const descriptionInput = editForm.querySelector('.popup__input_type_description');
 const placeNameInput = addForm.querySelector('.popup__input_type_card-name');
 const linkInput = addForm.querySelector('.popup__input_type_url');
 const avatarInput = avatarForm.querySelector('.popup__input_type_avatar-url');
-
-const placesList = document.querySelector('.places__list');
-
 const popupImageElement = popupImage.querySelector('.popup__image');
 const popupCaptionElement = popupImage.querySelector('.popup__caption');
 
+// Массив карточек
+const placesList = document.querySelector('.places__list');
+
+// Настройки валидации
 const validationSettings = {
     formSelector: '.popup__form',
     inputSelector: '.popup__input',
@@ -86,6 +96,7 @@ let isAvatarSubmitting = false; // Флаг для формы аватара
 function handleEditFormSubmit(evt) {
     evt.preventDefault();
 
+    // Запрос отправлен
     if (isEditSubmitting) {
         return;
     }
@@ -95,6 +106,7 @@ function handleEditFormSubmit(evt) {
     submitButton.disabled = true;
     submitButton.textContent = 'Сохранение...';
 
+    // Отправление запроса
     updateUserInfo(nameInput.value, descriptionInput.value)
         .then(user => {
             profileTitle.textContent = user.name;
@@ -115,6 +127,7 @@ function handleEditFormSubmit(evt) {
 function handleAddFormSubmit(evt) {
     evt.preventDefault();
 
+    // Запрос отправлен
     if (isAddSubmitting) {
         return;
     }
@@ -127,6 +140,7 @@ function handleAddFormSubmit(evt) {
     const name = placeNameInput.value;
     const link = linkInput.value;
 
+    // Отправление запроса
     addCard(name, link)
         .then(newCardData => {
             const newCard = createCard(newCardData, curUserId, handleCardClick);
@@ -151,6 +165,7 @@ function handleAddFormSubmit(evt) {
 function handleAvatarFormSubmit(evt) {
     evt.preventDefault();
 
+    // Запрос отправлен
     if (isAvatarSubmitting) {
         return;
     }
@@ -162,6 +177,7 @@ function handleAvatarFormSubmit(evt) {
 
     const avatarLink = avatarInput.value;
 
+    // Отправление запроса
     updateAvatar(avatarLink)
         .then(() => {
             profileImage.style.backgroundImage = `url(${avatarLink})`;
@@ -206,13 +222,15 @@ profileImage.addEventListener('click', () => {
     openPopup(popupAvatar);
 });
 
+
+// Добавление события закрытия попапа
 popupEditCloseButton.addEventListener('click', () => closePopup(popupEdit));
 popupAddCloseButton.addEventListener('click', () => closePopup(popupAdd));
 popupImageCloseButton.addEventListener('click', () => closePopup(popupImage));
 popupAvatarCloseButton.addEventListener('click', () => closePopup(popupAvatar));
 
-editForm.addEventListener('submit', handleEditFormSubmit);
-addForm.addEventListener('submit', handleAddFormSubmit);
+editForm.addEventListener('submit', handleEditFormSubmit); // Отправка формы изменения профиля
+addForm.addEventListener('submit', handleAddFormSubmit); // Отправка формы создания карточки
 avatarForm.addEventListener('submit', handleAvatarFormSubmit); // Отправка формы аватара
 
 // Добавление карточки по нажатию кнопки Enter
