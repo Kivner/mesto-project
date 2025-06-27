@@ -1,5 +1,5 @@
 // Импорт API
-import { deleteCard, addLike, removeLike } from './api';
+import { deleteCard, addLike, removeLike } from '../scripts/api';
 
 // Создание карточки
 export function createCard(cardData, userId, handleCardClick) {

@@ -3,7 +3,7 @@ import '../pages/index.css';
 // Импорты компонентов
 import {enableValidation, resetValidation} from './validate.js';
 import {createCard, addCardToPage} from './card.js';
-import {openPopup, closePopup, closeByOverlay} from '../components/modal.js';
+import {openPopup, closePopup, closeByOverlay} from './modal.js';
 // Импорт API
 import {
     getInitialCards,
@@ -11,7 +11,7 @@ import {
     updateUserInfo,
     addCard,
     updateAvatar
-} from './api.js';
+} from '../scripts/api.js';
 
 // Импорт лого сайта
 import logo from '../images/logo.svg'; // URL для лого сайта
