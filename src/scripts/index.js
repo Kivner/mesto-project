@@ -1,8 +1,8 @@
 // Импорт стилей
 import '../pages/index.css';
 // Импорты компонентов
-import {enableValidation, resetValidation} from '../components/validate.js';
-import {createCard, addCardToPage} from '../components/card.js';
+import {enableValidation, resetValidation} from './validate.js';
+import {createCard, addCardToPage} from './card.js';
 import {openPopup, closePopup, closeByOverlay} from '../components/modal.js';
 // Импорт API
 import {
@@ -10,9 +10,6 @@ import {
     getUserInfo,
     updateUserInfo,
     addCard,
-    deleteCard,
-    addLike,
-    removeLike,
     updateAvatar
 } from './api.js';
 
@@ -253,9 +250,6 @@ popups.forEach((popup) => {
         }
     });
 });
-
-// Инициализация карточек
-import {initialCards} from './initial-cards.js';
 
 let curUserId;
 
