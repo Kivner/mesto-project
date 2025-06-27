@@ -236,9 +236,6 @@ popups.forEach((popup) => {
     });
 });
 
-// Инициализация карточек
-import {initialCards} from './initial-cards.js';
-
 let curUserId;
 
 // Получение информации о пользователе и начальных карточек с сервера
